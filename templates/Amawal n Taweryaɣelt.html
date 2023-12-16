@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tarifiyt.com</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        
+        <!-- <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous" defer></script> -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        
+        <style>
+            .tablinks a.active {
+                background-color: #ccc;
+            }
+
+            .tabcontent {
+                animation: fadeEffect 1s; /* Fading effect takes 1 second */
+            }
+
+            /* Go from zero to full opacity */
+            @keyframes fadeEffect {
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+        </style>
+
+    </head>
+  <body>
+
+  <section class="section">
+        <div class="container" style="max-width: 800px;"">
+            <div class="navbar-brand">
+                <a class="navbar-item p-0 mb-6 ml-4 scale-125" href="https://tarifiyt.com"><img src="{{url_for('static', filename='images/logo.png')}}" alt="Tarifiyt.com: Mani tt-munen Imaziɣen d iḥuriyen"></a>
+            </div>
+
+            <h1 class="title font-bold text-red-600">{{ var.path[-1][0] | replace('-', ' ') }}</h1>
+
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="https://tarifiyt.com">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        Tarifiyt.com</a></li>
+
+                    {% for page in var.path[:-1] %}
+                        <li><a href="/{{ page[1] }}" aria-current="page">{{ page[0] | replace('-', ' ') }}</a></li>
+                    {% endfor %}
+                    <li class="is-active"><a href="{{ var.path[-1][1] }}" aria-current="page">{{ var.path[-1][0] | replace('-', ' ') }}</a></li>
+                </ul>
+            </nav>
+
+
+            <form method="POST" style="font-family: sans-serif; max-width: 800px;" class="py-8 mx-auto" >
+                <div class="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden border-gray-200 border-2">
+                    <div class="grid place-items-center h-full w-12 text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+            
+                    <input
+                    class="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+                    type="text"
+                    name="search"
+                    placeholder="ⵕⵣⵓ ⴰⵡⴰⵍ / Rzu awal" /> 
+                </div>
+            </form>
+
+            <!-- Tabs section  -->
+            <div class="px-4">
+                <ul class="grid grid-flow-col text-center text-gray-500 bg-gray-100 p-1 rounded-lg w-fit">
+                    <li>
+                      <a href="#awal" class="px-5 tablinks flex justify-center [&.active]:bg-white [&.active]:rounded-lg [&.active]:shadow [&.active]:text-red-600 font-bold py-2" id="defaultOpen" onclick="openTab(event, 'awal'); return false;">ⴰⵡⴰⵍ Awal</a>
+                    </li>
+                    <li>
+                      <a href="#abbrevations" class="px-5 tablinks flex justify-center [&.active]:bg-white [&.active]:rounded-lg [&.active]:shadow [&.active]:text-red-600 font-bold py-2" onclick="openTab(event, 'abbrevations'); return false;">Abbrevations</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tabs Content -->
+            <div id="awal" class="tabcontent">
+            {% if var.main_result is defined %}
+                <div class="rounded overflow-hidden shadow-lg m-5">
+                    <div class="px-6 py-4">
+
+                        <div class="font-bold text-2xl text-red-600">{{ var.main_result[0][0] }}</div>
+                        <div class="font-bold italic text-lg text-grey-600 mb-2">{{ var.main_result[0][1] }}</div>
+                        <p class="text-gray-700 text-base">
+                            {{ var.main_result[1] }}
+                        </p>
+
+
+                        <br>
+
+                        <button class="font-bold text-m py-2 rounded" id="showMore_translation" onclick="hide_translation()">Hide translation</button>
+                        <div class="translation">
+                            <p class="text-gray-700 text-base">
+                                {{ var.translate }}
+                            </p>
+    
+                            <div class="mt-10">
+                                <img class="scale-[0.8]" src="{{url_for('static', filename='images/google_translate.png')}}" alt="Google Translate logo">
+                                <p class="text-red-400 italic text-sm font-bold">Translations aren't 100% accurate! Follow French translation.</p>
+                            </div>
+                        </div>
+
+                        <br>
+                        
+
+
+                            
+                        {% if var.main_result_syn is defined and var.main_result_syn |length > 0 %}
+                                <div class="font-bold text-lg text-red-600 mb-2">Synonyms:</div>
+                                <ol class="list-decimal">
+                                    {% for res in var.main_result_syn %}
+                                    {% set ress = res | replace('.', '') | trim %}
+                                        <li>
+                                            <form method="post">
+                                                <button name="search" value="{{ ress }}">{{ ress }}</button>
+                                            </form>
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                            {% endif %}
+
+                            {% if var.related_results is defined and var.related_results |length > 0 %}
+                                <div class="font-bold text-lg mb-2 text-red-600 mt-5">Related Words to your search query:</div>
+                                    <p class="list-decimal">
+                                        <ol>
+                                            {% for res in var.related_results[:6] %}
+                                                <li>
+                                                    <form method="post">
+                                                        <button name="search" value="{{ res }}">{{ res }}</button>
+                                                    </form>
+                                                </li>
+                                            {% endfor %}
+                                            
+
+                                            <div class="hideMe" style="display: none;">
+                                                {% for res in var.related_results[6:] %}
+                                                    <li>
+                                                        <form method="post">
+                                                            <button name="search" value="{{ res }}">{{ res }}</button>
+                                                        </form>
+                                                    </li>
+                                                {% endfor %}
+                                            </div>
+                                        </ol>
+
+                                        {% if var.related_results |length > 6 %}
+                                            <button class="font-bold text-m py-2 rounded" id="showMore" onclick="hide()">Show more...</button>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="font-bold text-xl mb-2 mt-4 px-4">No search results. :/</div>
+            {% endif %}
+            
+            
+            <div id="abbrevations" class="tabcontent">
+                <div class="rounded shadow-lg m-5">
+                    <div class="px-6 py-4">
+
+
+                        <div class="grid grid-cols-3 gap-3">
+                            {% for res in var.abbrevations %}
+                                <div class=" break-words">{{ res }}</div>
+                                <div class=" break-words">{{ var.abbrevations[res][0] }}</div>
+                                <div class=" break-words">{{ var.abbrevations[res][1] }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>            
+
+    </section>
+
+    <script defer>
+        let children = document.querySelectorAll(".hideMe");
+        let button = document.getElementById('showMore');
+
+        function hide() {
+            for (var i = 0; i < children.length; ++i) {
+                if (children[i].style.display == 'none'){
+                    children[i].style.display = 'block';
+                    console.log('hi')
+                    button.innerHTML = 'Show less'
+                } else {
+                    console.log('no')
+                    children[i].style.display = 'none';
+                    button.innerHTML = 'Show more...'
+                }
+            }
+        }
+        let children_translation = document.querySelectorAll(".translation");
+        let button_translation = document.getElementById('showMore_translation');
+        function hide_translation() {
+            for (var i = 0; i < children.length; ++i) {
+                if (children_translation[i].style.display == 'none'){
+                    children_translation[i].style.display = 'block';
+                    console.log('hi')
+                    button_translation.innerHTML = 'Hide translation'
+                } else {
+                    console.log('no')
+                    children_translation[i].style.display = 'none';
+                    button_translation.innerHTML = 'Show translation...'
+                }
+            }
+        }
+
+        // Tab code
+        function openTab(evt, tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            console.log(tablinks)
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove('active');
+
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add('active');
+        } document.getElementById("defaultOpen").click();
+    </script>
+</body>
