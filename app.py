@@ -61,6 +61,35 @@ def amawal_n_tawaryaɣelt_post():
 
     return render_template('Amawal n Taweryaɣelt.html', var=var)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/<html>/')
+def any_html(html):
+    return render_template(html)
+
+@app.route("/<page>/<var>/")
+def any_html2(page, var):
+    return render_template(f'{page}/{var}')
+
+@app.route("/<page>/<var>/<var2>/")
+def any_html3(page, var, var2):
+    return render_template(f'{page}/{var}/{var2}')
+
+# @app.route('/figuig.html/')
+# def figuig():
+#     return render_template('figuig.html')
+
+# @app.route('/figuig/tinfusin.html/')
+# def figuig_tinfusin():
+#     return render_template('figuig/tinfusin.html')
+
+# @app.route('/figuig/tinfusin/<story>/')
+# def figuig_tinfusin_stories(story):
+#     return render_template(f'figuig/tinfusin/{story}')
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host='0.0.0.0')
 
