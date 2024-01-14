@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Tarifiyt.com</title>
+
+
+
+  <!-- slider stylesheet -->
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+    <!-- {{url_for('static', filename='')}} -->
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.css')}}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{url_for('static', filename='css/responsive.css')}}" rel="stylesheet" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    .wrapper {
+        min-height: 100%;
+
+        /* Equal to height of footer */
+        /* But also accounting for potential margin-bottom of last child */
+        margin-bottom: -60px;
+    }
+    .footer,
+    .push {
+        height: 60px;
+    }
+  </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <header class="header_section" style="background-color: #de0029;">
+            <div class="container-fluid">
+              <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="" href="{{url_for('any_html', html='index.html')}}" style="color: white; font-weight: bold; font-size: 25px;">
+                  <span>
+                    ⵣ Tarifiyt.com
+                    <!-- <img src="{{url_for('static', filename='images/logo.png')}}"> -->
+                  </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                    <ul class="navbar-nav  ">
+                      <li class="nav-item ">
+                        <a class="nav-link" href="{{url_for('any_html', html='index.html')}}"><b> Taddert </b><span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('any_html', html='min-neɛna.html')}}"> <b>Min neɛna</b> </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('any_html', html='tɣuṛi.html')}}"> <b>Tɣuṛi</b> </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </header>
+
+
+      <!-- how section -->
+      <section class="how_section layout_padding" id="Min ɣer-neɣ">
+        <div class="heading_container">
+          <h2>
+            Min neɛna necnin? La necc ur ssineɣ ay uma.
+          </h2>
+        </div>
+        <div class="how_container">
+        </div>
+
+
+      <div class="push"></div>
+    </div>
+
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section footer">
+    <p>
+      &copy; 2024 All Rights Reserved By
+      <a href="mailto:amzirmarzgawi@gmail.com" style="color: beige;">AmzirMarzgawi@gmail.com</a>
+    </p>
+    </footer>
+  <!-- footer section -->
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- owl carousel script
+    -->
+  <script type="text/javascript">
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 0,
+      navText: [],
+      center: true,
+      autoplay: true,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        1000: {
+          items: 3
+        }
+      }
+    });
+  </script>
+  <!-- end owl carousel script -->
+</body>
+
+</html>
