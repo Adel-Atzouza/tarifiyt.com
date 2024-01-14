@@ -50,7 +50,7 @@ body {
   left: 50%;
   width: 75px;
   height: 5px;
-  background-color: #30ae69;
+  background-color: #de0029;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }
@@ -328,7 +328,7 @@ a:focus {
   left: 50%;
   width: 75px;
   height: 2px;
-  background-color: #30ae69;
+  background-color: #ae304d;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }
@@ -338,7 +338,7 @@ a:focus {
 }
 
 .how_section .how_container .box:hover .img-box {
-  background-color: #30ae69;
+  background-color: #FFD6D7;
 }
 
 .how_section .how_container .box:hover .img-box svg {
