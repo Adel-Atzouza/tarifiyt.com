@@ -39,14 +39,14 @@ def amawal_n_tawaryaɣelt_post():
     # main_result = difflib.get_close_matches(query, [i[0].lower() for i in var['related_results']], n=1, cutoff=0.1)
     res_15 = difflib.get_close_matches(query, [i for i in amawal_n_tawaryaɣelt_data], n=15, cutoff=0.1)
     print(res_15)
-    
+
     if len(res_15) == 0:
         main_result = []
     else:
         main_result = res_15[0]
         var['related_results'] = res_15[1:]
 
-    if len(main_result) != 0:      
+    if len(main_result) != 0:
         var['main_result'] = [main_result, amawal_n_tawaryaɣelt_data[main_result]]
         var['main_result'][0] = [main_result.capitalize(), extra.to_tifinaɣ(main_result)]
 
@@ -55,7 +55,7 @@ def amawal_n_tawaryaɣelt_post():
         var['main_result_syn'] = []
 
         for i in synonyms: var['main_result_syn'] += i
-                    
+
         var['main_result'][1] = Markup(rebuild)
         var['translate'] = Markup(extra.translate(rebuild))
 
@@ -71,6 +71,7 @@ def any_html(html):
 
 @app.route("/<page>/<var>/")
 def any_html2(page, var):
+    print(page, var)
     return render_template(f'{page}/{var}')
 
 @app.route("/<page>/<var>/<var2>/")

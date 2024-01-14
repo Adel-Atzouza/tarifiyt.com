@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <style>#beacon-container-body,
+#beacon-container {
+  margin: 0;
+  overflow: hidden;
+
+  --BlueConfigGlobalFontFamilyMono: 'SFMono-Regular', Consolas,
+    'Liberation Mono', Menlo, Courier, monospace;
+  --HSDSGlobalFontFamily: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  font-family: var(--HSDSGlobalFontFamily);
+  font-size: 14px;
+  line-height: 1.5;
+}
+#beacon-container-body *, #beacon-container * {
+    box-sizing: border-box;
+  }
+</style>
+        <style>.c-FabButtonCritical__button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  align-items: center;
+  border-radius: 200px;
+  border: none;
+  bottom: 0;
+  color: white;
+  cursor: pointer;
+  display: block;
+  height: 60px;
+  justify-content: center;
+  min-width: 60px;
+  margin: 0;
+  line-height: 60px;
+  outline: none !important;
+  padding: 0;
+  position: relative;
+  transition: transform 200ms linear;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  z-index: 999;
+  -webkit-tap-highlight-color: transparent;
+
+  backface-visibility: hidden;
+}
+
+.c-FabButtonCritical__button:hover {
+    background-color: var(--background-hover-color, inherit) !important;
+    box-shadow: inset 0 0 0 30px rgba(0, 0, 0, 0.06);
+  }
+
+.c-FabButtonCritical__button:active {
+    background-color: var(--background-active-color, inherit) !important;
+
+    box-shadow: inset 0 0 0 30px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transform: scale(0.96);
+  }
+
+.c-FabButtonCritical__button::-moz-focus-inner {
+    border: 0;
+  }
+
+.c-FabButtonCritical__button:before {
+    --focus-offset: 4px;
+
+    content: '';
+    border-radius: 200px;
+    bottom: var(--focus-offset);
+    box-shadow: 0 0 0 2px var(--text-color);
+    left: var(--focus-offset);
+    pointer-events: none;
+    position: absolute;
+    right: var(--focus-offset);
+    top: var(--focus-offset);
+    opacity: 0;
+    background: transparent;
+    z-index: 3;
+  }
+
+.c-FabButtonCritical__button:focus:before, .c-FabButtonCritical__button.is-focused:before {
+      opacity: 1;
+    }
+
+.c-FabButtonCritical__button:focus:not(:focus-visible):before {
+      opacity: 0;
+    }
+
+.c-FabButtonCritical__button:focus-visible:before {
+      opacity: 1 !important;
+      transition: opacity ease 0.2s;
+    }
+
+.c-FabButtonCritical__button--text-only {
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.c-FabButtonCritical__button--text-and-icon {
+  height: 55px;
+  line-height: 55px;
+}
+
+.c-FabButtonCritical__button--is-loading {
+  background-color: var(--background-active-color, inherit) !important;
+  box-shadow: inset 0 0 0 30px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transform: scale(0.96);
+}
+
+.c-FabButtonCritical__text {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 20px 0 54px;
+  white-space: nowrap;
+  line-height: 14px;
+}
+
+.c-FabButtonCritical__text--text-only {
+  padding: 0 15px;
+}
+
+.c-FabButtonCritical__text--align-left {
+  padding: 0 54px 0 20px;
+}
+
+@media (max-device-width: 812px) {
+
+.c-FabButtonCritical__text--hide-on-mobile {
+    display: none;
+}
+  }
+
+.c-FabButtonCritical__icon {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  text-indent: -99999px;
+  top: 0;
+  width: 60px;
+}
+
+.c-FabButtonCritical__icon path {
+    fill: currentColor;
+  }
+
+.c-FabButtonCritical__icon--text-align-left {
+  left: auto;
+  right: 0;
+}
+</style>
+        <style></style></head>
+        <body id="beacon-container-body">
+          <div id="beacon-container"><div class="frame-content"><button style="background-color: rgb(192, 182, 56); --background-hover-color: #b8ae30; --background-active-color: #b0a628; --text-color: white;" class="c-FabButtonCritical__button c-FabButtonCritical__button--text-only"><span class="c-FabButton__text c-FabButtonCritical__text c-FabButtonCritical__text--text-only" style="color: white;">Besoin d'aide ?</span></button></div></div>
+        
+      
+    </body></html>
