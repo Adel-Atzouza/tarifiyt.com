@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, jsonify
 import extra, json, difflib, re, string
 from markupsafe import Markup
 
@@ -60,6 +60,41 @@ def amawal_n_tawaryaɣelt_post():
         var['translate'] = Markup(extra.translate(rebuild))
 
     return render_template('Amawal n Taweryaɣelt.html', var=var)
+
+wiktionary_data = []
+@app.route('/wiktionary.html/<word>/')
+def wiktionary(word):
+    global wiktionary_data
+
+    if len(wiktionary_data) == 0:
+        with open('data/dictionaries/kaikki.org-dictionary-Tarifit.json', 'r', encoding='utf8') as file:
+            wiktionary_data = json.load(file)
+
+    for item in wiktionary_data:
+        if item['word'].lower() == word.lower():
+            return render_template('wiktionary.html', word=item)
+    return render_template('wiktionary.html')
+
+@app.route('/get_suggestions_wiktionary/')
+def get_suggestions_wiktionary():
+    global wiktionary_data
+
+    if len(wiktionary_data) == 0:
+        with open('data/dictionaries/kaikki.org-dictionary-Tarifit.json', 'r', encoding='utf8') as file:
+            wiktionary_data = json.load(file)
+
+    query = request.args.get('query', '')
+
+    # Filter suggestions based on the query
+    suggestions = [word['word'] for word in wiktionary_data if query.lower() in word['word'].lower()]
+    for word in wiktionary_data:
+        for w in word['senses'][0]['glosses']:
+            if query.lower() in w.lower():
+                suggestions += [word['word']]
+
+    # Return suggestions as JSON
+    return jsonify({'suggestions': suggestions})
+
 
 @app.route('/')
 def index():

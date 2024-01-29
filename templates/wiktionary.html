@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiktionary Tarifiyt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #FFFFF7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class='max-w-md mx-auto mt-10'>
+        <h1 class="text-5xl text-center mb-2"><b>Wiktionary</b></h1>
+        <h1 class="text-xl text-right mb-6 mr-20 mb-4 text-red-400"><b>Tarifiyt</b></h1>
+
+        <div class="relative flex items-center w-full h-12 rounded-lg shadow-lg bg-white overflow-hidden">
+            <div class="grid place-items-center h-full w-12 text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+
+            <input
+            class="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+            type="text"
+            id="search"
+            autocomplete="off"
+            placeholder="Search something.." />
+        </div>
+        <ul id="search-suggestions" class="shadow-lg bg-white overflow-hidden overflow-y-scroll max-h-60">
+            <!-- Suggestions will be dynamically added here -->
+        </ul>
+
+        <div class="shadow-lg bg-white p-6 rounded-lg mt-10">
+            {% if word %}
+                {% if word.pos == "noun" %}
+
+                    <p class="text-xl text-red-400 font-bold capitalize">{{ word.word }}</p>
+                    <p class="font-bold italic">{{ word.pos }}</p>
+                    <p class="italic mb-4">{{ word.head_templates[0].expansion }}</p>
+
+                    <ol class="list-decimal ml-8">
+                        {% for sense in word.senses %}
+                            {% for gloss in sense.glosses %}
+                                <li>{{ gloss }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ol>
+                {% elif word.pos == "verb" %}
+                    <p>Verb stuff</p>
+                {% endif %}
+
+            {% else %}
+                <p>No search results.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Add an event listener to the search input
+        document.getElementById('search').addEventListener('input', function() {
+            // Get the input value
+            var inputValue = this.value;
+            // Make a GET request to the Flask endpoint with the input value
+            fetch('/get_suggestions_wiktionary?query=' + inputValue)
+                .then(response => response.json())
+                .then(data => {
+                    // Update the suggestions list with the received data
+                    updateSuggestions(data.suggestions);
+                });
+        });
+
+        var suggestionsList;
+
+        // Function to update the suggestions list
+        function updateSuggestions(suggestions) {
+            suggestionsList = document.getElementById('search-suggestions');
+
+            // Clear the previous suggestions
+            suggestionsList.innerHTML = '';
+
+            // Add new suggestions to the list
+            suggestions.forEach(function(suggestion) {
+                // var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.textContent = suggestion;
+                a.href = '/wiktionary.html/' + suggestion;
+                // li.appendChild(a);
+                a.className = 'px-4 py-2 block cursor-pointer hover:bg-gray-200';
+                suggestionsList.appendChild(a);
+            });
+        }
+
+        var recently_removed = '';
+
+        document.onclick = function(e){
+            if(e.target.id !== 'search-suggestions'){
+                //element clicked wasn't the div; hide the div
+                if (suggestionsList) {
+                    if (suggestionsList.innerHTML !== '') {
+                        recently_removed = suggestionsList.innerHTML;
+                        suggestionsList.innerHTML = '';
+                    }
+                }
+            } if (e.target.id === 'search'){
+                suggestionsList.innerHTML = recently_removed;
+            }
+        };
+
+
+    </script>
+</body>
+</html>
