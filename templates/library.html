@@ -1,0 +1,239 @@
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Tasedlist</title>
+
+  <style>
+    /* Custom Tailwind CSS */
+    @layer utilities {
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            -webkit-line-clamp: 3; /* Number of lines to show */
+        }
+    }
+  </style>
+
+
+
+  <!-- Pdf site where you can download books about the rif about different topics like linguistics, culture, history, etc. -->
+</head>
+<body class="m-0">
+    <a class="text-2xl font-bold p-4 bg-red-600 text-center text-white block" href="https://tarifiyt.com">
+        ⵣ Tarifiyt.com
+    </a>
+
+    <div class="container p-4 pt-0 max-w-3xl bg-grey-200 mx-auto">
+
+        <div class='max-w-md mx-auto mt-12 mb-16'>
+            <div class="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
+                <div class="grid place-items-center h-full w-12 text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+
+                <input
+                class="peer h-full w-full outline-none font-bold text-sm text-gray-700 pr-2"
+                type="text"
+                id="search"
+                autocomplete="off"
+                placeholder="Search book" />
+            </div>
+        </div>
+
+        <div id="filter_buttons" class="mb-8"></div>
+
+        <div id="books"></div>
+
+        <div id="pagination" class="flex justify-center mt-8"></div>
+
+    </div>
+
+
+    <script>
+        let info;
+
+        const booksPerPage = 6;
+        let totalPages;
+        let currentPage = 1;
+
+        function displayBooks(page, data) {
+            const startIndex = (page - 1) * booksPerPage;
+            const endIndex = startIndex + booksPerPage;
+            const books = document.getElementById('books');
+            books.innerHTML = '';
+
+            for (let i = startIndex; i < endIndex && i < data.length; i++) {
+                const badges = data[i].directories.slice(2).map(tag => `<span class="inline-flex rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/10">${tag}</span>`).join(' ');
+                books.innerHTML += `
+                    <a class="flex mb-6" href="${data[i].sharingLink}">
+                        <img src="${data[i].previewImageLink}" alt="Book Cover" class="w-16 max-h-28 mr-4" style="border-width: 1px;">
+                        <div>
+                            <h3 class="text-base lg:text-xl font-bold mb-1 max-h-20 line-clamp-3">${data[i].name}</h3>
+                            <div>
+                                <span class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">${data[i].mimeType.split("/")[1]}</span>
+                                <span class="inline-flex rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">${Math.round(data[i].fileSize/1024/1024 * 10) / 10} mb</span>
+                                ${badges}
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }
+        }
+
+        function displayPagination(data) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            const maxButtons = 6;
+            let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            let endPage = Math.min(startPage + maxButtons - 1, totalPages);
+
+            if (endPage - startPage + 1 < maxButtons) {
+                startPage = Math.max(1, endPage - maxButtons + 1);
+            }
+
+
+            const button_begin = document.createElement('button');
+            button_begin.textContent = 'Begin: 1';
+            button_begin.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+            button_begin.addEventListener('click', () => {
+                currentPage = 1;
+                displayBooks(currentPage, data);
+                displayPagination(data);
+            });
+            pagination.appendChild(button_begin);
+
+
+            for (let i = startPage; i <= endPage; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+                if (i === currentPage) {
+                    button.classList.add('bg-red-300');
+                } else {
+                    button.addEventListener('click', () => {
+                        currentPage = i;
+                        displayBooks(currentPage, data);
+                        displayPagination(data);
+                    });
+                }
+                pagination.appendChild(button);
+            }
+
+            const button_end = document.createElement('button');
+            button_end.textContent = 'End: ' + totalPages;
+            button_end.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+            button_end.addEventListener('click', () => {
+                currentPage = totalPages;
+                displayBooks(currentPage, data);
+                displayPagination(data);
+            });
+            pagination.appendChild(button_end);
+        }
+
+        function books(data)
+        {
+            totalPages = Math.ceil(data.length / booksPerPage);
+            currentPage = 1;
+
+            displayBooks(currentPage, data);
+            displayPagination(data);
+        }
+
+        const badges = [];
+
+        // load pdf_links.json
+        fetch('/static/pdf_links.json')
+            .then(response => response.json())
+            .then(d => {
+                info = d.sort((a, b) => {
+                // Convert names to lowercase for case-insensitive sorting
+                let nameA = a.name.toLowerCase();
+                let nameB = b.name.toLowerCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });;
+
+                for (let i = 0; i < info.length; i++) {
+                    const dic = info[i].directories.slice(2);
+
+                    for (let j = 0; j < dic.length; j++) {
+                        if (!badges.includes(dic[j])) {
+                            badges.push(dic[j]);
+                        }
+                    }
+                }
+
+                badges.sort();
+
+                console.log(badges)
+
+                books(info);
+
+                const filterButtons = document.getElementById('filter_buttons');
+                for (let i = 0; i < badges.length; i++) {
+                    const button = document.createElement('button');
+                    button.textContent = badges[i];
+                    // add these styles to button <span class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">${data[i].mimeType.split("/")[1]}</span>
+                    button.classList.add("inline-flex", "rounded-md", "bg-red-50", "px-2", "py-1", "text-xs", "font-medium", "text-red-700", "ring-1", "ring-inset", "ring-red-600/10");
+                    // button.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+                    button.addEventListener('click', () => {
+                        const filteredData = info.filter(book => book.directories.slice(2).includes(badges[i]));
+                        console.log(filteredData);
+                        search(filteredData);
+                    });
+                    filterButtons.appendChild(button);
+                }
+            })
+
+
+        function search(f_data){
+            // filter data based on search value
+            const searchInput = document.getElementById('search');
+            const searchValue = searchInput.value.toLowerCase();
+
+            const filteredData = f_data.filter(book => book.name.toLowerCase().includes(searchValue));
+            books(filteredData);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('search');
+
+            // Add event listener for Enter key press on input
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent form submission
+                    const searchValue = searchInput.value.toLowerCase();
+
+                    // check if search value is empty
+                    if (searchValue === '') {
+                        return;
+                    }
+
+                    // filter data based on search value
+                    const filteredData = info.filter(book => book.name.toLowerCase().includes(searchValue));
+                    books(filteredData);
+
+                    // Clear search input
+                    searchInput.value = '';
+                }
+            });
+        });
+
+
+
+    </script>
+
+</body>
+</html>

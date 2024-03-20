@@ -1,10 +1,15 @@
-from flask import Flask, render_template, request, session, jsonify
+from flask import Flask, render_template, request, session, jsonify, redirect
 import extra, json, difflib, re, string
 from markupsafe import Markup
 
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2Ldccd"dcdcF4Q8dcdcz\n\xec]zfrgb543/'
+
+
+@app.route('/tasedlist.html/')
+def hello():
+    return redirect("/library.html/")
 
 @app.route('/Amawal-n-Taweryaɣelt/')
 def amawal_n_tawaryaɣelt():
