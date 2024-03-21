@@ -137,7 +137,8 @@
 
             const button_begin = document.createElement('button');
             button_begin.textContent = 'Begin: 1';
-            button_begin.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+            button_begin.classList.add('inline-flex', 'rounded-md', 'bg-red-50', 'px-2', 'py-1', 'text-xs', 'font-medium', 'text-red-700', 'ring-1', 'ring-inset', 'ring-red-600/10');
+            // button_begin.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
             button_begin.addEventListener('click', () => {
                 currentPage = 1;
                 displayBooks(currentPage, data);
@@ -149,7 +150,8 @@
             for (let i = startPage; i <= endPage; i++) {
                 const button = document.createElement('button');
                 button.textContent = i;
-                button.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+                button.classList.add('inline-flex', 'rounded-md', 'bg-red-50', 'px-2', 'py-1', 'text-xs', 'font-medium', 'text-red-700', 'ring-1', 'ring-inset', 'ring-red-600/10');
+                // button.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
                 if (i === currentPage) {
                     button.classList.add('bg-red-300');
                 } else {
@@ -164,7 +166,9 @@
 
             const button_end = document.createElement('button');
             button_end.textContent = 'End: ' + totalPages;
-            button_end.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
+            // add these styles to button <span class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">${data[i].mimeType.split("/")[1]}</span>
+            button_end.classList.add('inline-flex', 'rounded-md', 'bg-red-50', 'px-2', 'py-1', 'text-xs', 'font-medium', 'text-red-700', 'ring-1', 'ring-inset', 'ring-red-600/10');
+            // button_end.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
             button_end.addEventListener('click', () => {
                 currentPage = totalPages;
                 displayBooks(currentPage, data);
@@ -223,9 +227,8 @@
                 for (let i = 0; i < badges.length; i++) {
                     const button = document.createElement('button');
                     button.textContent = badges[i];
-                    // add these styles to button <span class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">${data[i].mimeType.split("/")[1]}</span>
+
                     button.classList.add("inline-flex", "rounded-md", "bg-red-50", "px-2", "py-1", "text-xs", "font-medium", "text-red-700", "ring-1", "ring-inset", "ring-red-600/10");
-                    // button.classList.add('mx-1', 'px-2', 'py-1', 'bg-red-200', 'text-red-700', 'rounded-md', 'focus:outline-none', 'focus:bg-red-300');
                     button.addEventListener('click', () => {
                         const filteredData = info.filter(book => book.directories.slice(2).includes(badges[i]));
                         console.log(filteredData);
